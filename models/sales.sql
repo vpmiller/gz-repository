@@ -21,5 +21,8 @@ SELECT
 	,ROUND(s.quantity*CAST(p.purchSE_PRICE AS FLOAT64),2) AS purchase_cost
 	-- margin --
 	,Round(s.revenue - s.quantity*CAST(p.purchSE_PRICE AS FLOAT64),2) AS product_margin
+    ,{{ margin_percent('s.revenue', 's.quantity*CAST(p.purchSE_PRICE AS FLOAT64)') }} AS margin_percent
+    ,Round({{margin('s.revenue','ROUND(s.quantity*CAST(p.purchSE_PRICE AS FLOAT64),2),2)')}} AS margin
 FROM sales s
 INNER JOIN product p ON s.pdt_id = p.products_id
+
